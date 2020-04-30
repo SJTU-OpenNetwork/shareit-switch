@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"
+    immediate="true" name="com.sjtuopennetwork.shareit.ShareService">
+    
+    <implementation class="com.sjtuopennetwork.shareit.ShareService" />
+
+	<service>
+		<provide interface="com.huawei.hilink.rest.RESTResource" />
+	</service>
+	
+	<!--获取USBStorage服务-->
+    <reference bind="setUSBStorage" cardinality="1..1"
+        interface="com.huawei.hilink.openapi.usbstorage.USBStorage" name="USBStorage"
+        policy="dynamic" unbind="unsetUSBStorage" />
+
+    <!--获取NativeLauncher服务 -->
+    <reference bind="setNativeLauncher" cardinality="1..1"
+        interface="com.huawei.hilink.openapi.nativelauncher.NativeLauncher" name="NativeLauncher"
+        policy="dynamic" unbind="unsetNativeLauncher" />
+</scr:component>
