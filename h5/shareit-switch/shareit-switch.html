@@ -19,9 +19,10 @@
     <script>
         var url_post = "/shareit/postCmd";
         function postData(){
+            var submitCmdType=$("#inputCmdType").val();
             var submitCmd = $("#inputdata").val();
             var postCmd={
-                "cmdType":"test",
+                "cmdType":submitCmdType,
                 "cmd":submitCmd,
             }
             var submitData = JSON.stringify(postCmd);
@@ -39,7 +40,8 @@
 <body>
     <div style="width:100%;text-align:center">
         <h1>ShareIt Switch</h1>
-        <textarea id="inputdata" name="inputdata" cols="20" rows="6"></textarea><br>
+        <textarea id="inputCmdType" name="inputCmdType" cols="20" rows="2"></textarea><br>
+        <textarea id="inputCmd" name="inputCmd" cols="20" rows="6"></textarea><br>
         <button id="bt_post" onclick="postData()">传入参数</button>
     </div>
     
