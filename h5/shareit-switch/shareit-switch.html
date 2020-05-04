@@ -17,6 +17,42 @@
     <script type="text/javascript" src="./public/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="./public/framework.min.js"></script>
     <script type="text/javascript" src="./public/public_router.js"></script>
+
+    <style>
+        input {
+            width: max-content;
+            border: 1px solid #ccc;
+            padding: 7px 0px;
+            border-radius: 10px;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
+
+        input:focus {
+            border-color: #66afe9;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+        }
+
+        .del_bt {
+            border-radius: 10px;
+            padding: 5px,10px,5px,10px;
+            margin: 3px;
+            background-color: #ca4242;
+            border-color: #bd3535;
+            color: #fff;
+        }
+
+        .add_bt {
+            border-radius: 10px;
+            padding: 5px,10px,5px,10px;
+            margin: 3px;
+            background-color: #428bca;
+            border-color: #357ebd;
+            color: #fff;
+        }
+    </style>
+
     <script>
         window.onload = function () {
             getWhiteList();
@@ -58,29 +94,28 @@
             var whiteResult = JSON.parse(result)
             console.log(whiteResult);
             $("#table_whiteList").empty();
-            $("#table_whiteList").append('<tr><td><input id="input_add" type="text"></td><td><button onclick="addWhiteList()">添加</button></tr>');
+            $("#table_whiteList").append('<tr><td><input id="input_add" type="text"></td><td><button class="add_bt" onclick="addWhiteList()">添加</button></tr>');
             for (var i = 0; i < whiteResult.peerIdList.length; i++) {
                 console.log(whiteResult.peerIdList[i])
                 var trTemp = $("<tr></tr>");
                 trTemp.append('<td><input readonly="true" value="' + whiteResult.peerIdList[i] + '"/></td>');
-                trTemp.append('<td><button onClick="delWhiteList(this)">删除</button></td>');
+                trTemp.append('<td><button class="del_bt" onClick="delWhiteList(this)">删除</button></td>');
                 trTemp.appendTo("#table_whiteList");
             }
         }
         function getWhiteList() {
             hilink.getResource(url_get, "getWhitelistSuccess");
-            // getWhitelistSuccess('{"a":"b","peerIdList":["111","222"]}');
+            // getWhitelistSuccess('{"a":"b","peerIdList":["111","222"]}'); //test
         }
 
     </script>
 </head>
 
-<body>
+<body style="background-color: #eee;">
     <div style="width:100%;text-align:center">
         <h1>ShareIt Switch</h1><br>
-        <h2>WhiteList</h2>
+        <h3>WhiteList</h3>
         <table id="table_whiteList" style="margin:auto">
-
         </table>
     </div>
 
