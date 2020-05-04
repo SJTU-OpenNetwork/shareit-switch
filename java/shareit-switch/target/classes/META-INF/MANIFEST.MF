@@ -3,7 +3,7 @@ Bundle-Description: shareit-switch
 Bundle-SymbolicName: com.sjtuopennetwork.shareit.switch
 Built-By: jack
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1588217374336
+Bnd-LastModified: 1588598965394
 Import-Package: com.huawei.hilink.openapi.nativelauncher;version="1.0"
  ,com.huawei.hilink.openapi.usbstorage;version="1.0",com.huawei.hilink
  .rest;version="1.0",com.sjtuopennetwork.shareit,org.osgi.framework;ve
@@ -13,7 +13,7 @@ Tool: Bnd-0.0.357
 Export-Package: com.sjtuopennetwork.shareit;uses:="org.osgi.framework,
  com.huawei.hilink.openapi.nativelauncher,com.huawei.hilink.openapi.us
  bstorage,com.huawei.hilink.rest"
-Bundle-Version: 1.0.3
+Bundle-Version: 1.0.7
 Bundle-Name: shareit-switch
 Bundle-Activator: com.sjtuopennetwork.shareit.Activator
 Created-By: Apache Maven Bundle Plugin
