@@ -24,7 +24,7 @@ public class ShareService extends AbstractRESTResource {
     // global vars
     String usbPath;
     String homeDir;
-    LinkedList<String> testWhiteList=new LinkedList<>((Collection<String>)Arrays.asList(new String[]{"p111","p222"}));
+    LinkedList<String> testWhiteList=new LinkedList<>((Collection<String>)Arrays.asList(new String[]{"111","222"}));
 
     public ShareService(){
         super("shareit");
