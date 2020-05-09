@@ -24,7 +24,8 @@ public class ShareService extends AbstractRESTResource {
     // global vars
     String usbPath;
     String homeDir;
-    LinkedList<String> testWhiteList=new LinkedList<>((Collection<String>)Arrays.asList(new String[]{"111","222"}));
+    LinkedList<String> testWhiteList=new LinkedList<>((Collection<String>)Arrays.asList(new String[]{"p111","p222"}));
+    boolean nodeStart=false;
 
     public ShareService(){
         super("shareit");
@@ -54,10 +55,20 @@ public class ShareService extends AbstractRESTResource {
 
     public Response postCmd(PostData postData){
         switch(postData.cmdType){
+            case "startNode":
+                if(!nodeStart){
+                    nativeLauncher.launch("shadow",new String[]{"start",homeDir+"/test1"});
+                    System.out.println(TAG+"start textile");
+                    nodeStart=true;
+                }else{
+                    System.out.println(TAG+"node already started");
+                }
+                break;
             case "addWhiteList":
                 // add a peerid to whiteList
                 System.out.println(TAG+"add:"+postData.cmd);
                 testWhiteList.add(postData.cmd);
+                nativeLauncher.launch("shadow", new String[]{"whitelist","add",postData.cmd});
                 break;
             case "delWhiteList":
                 System.out.println(TAG+"del"+postData.cmd);
@@ -87,7 +98,7 @@ public class ShareService extends AbstractRESTResource {
         }
 
         // launch the native progress
-        // textile=nativeLauncher.launch("shadow", new String[]{"init",homeDir+"/test1"});
+        textile=nativeLauncher.launch("shadow", new String[]{"init",homeDir+"/test1"});
         System.out.println(TAG+"init textile");
     }
 
