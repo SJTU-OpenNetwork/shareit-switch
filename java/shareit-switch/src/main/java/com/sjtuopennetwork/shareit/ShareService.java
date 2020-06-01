@@ -1,8 +1,6 @@
 package com.sjtuopennetwork.shareit;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 
 import com.huawei.hilink.openapi.nativelauncher.LaunchedProcess;
@@ -24,7 +22,8 @@ public class ShareService extends AbstractRESTResource {
     // global vars
     String usbPath;
     String homeDir;
-    LinkedList<String> testWhiteList=new LinkedList<>((Collection<String>)Arrays.asList(new String[]{"p111","p222"}));
+    // LinkedList<String> testWhiteList=new LinkedList<>((Collection<String>)Arrays.asList(new String[]{"p111","p222"}));
+    LinkedList<String> testWhiteList=new LinkedList<>();
     boolean nodeStart=false;
 
     public ShareService(){
@@ -57,9 +56,11 @@ public class ShareService extends AbstractRESTResource {
         switch(postData.cmdType){
             case "startNode":
                 if(!nodeStart){
-                    nativeLauncher.launch("shadow",new String[]{"start",homeDir+"/test1"});
+                    nativeLauncher.launch("shadow",new String[]{"start",homeDir+"/shadow"});
                     System.out.println(TAG+"start textile");
                     nodeStart=true;
+                    // testWhiteList.add("aaa");
+                    // testWhiteList.add("bbb");
                 }else{
                     System.out.println(TAG+"node already started");
                 }
@@ -67,7 +68,7 @@ public class ShareService extends AbstractRESTResource {
             case "addWhiteList":
                 // add a peerid to whiteList
                 System.out.println(TAG+"add:"+postData.cmd);
-                testWhiteList.add(postData.cmd);
+                testWhiteList.add(postData.cmd.substring(0,15)+"...");
                 nativeLauncher.launch("shadow", new String[]{"whitelist","add",postData.cmd});
                 break;
             case "delWhiteList":
@@ -89,6 +90,7 @@ public class ShareService extends AbstractRESTResource {
         // create shareit directory, and test the write permission
         usbPath=usbStorage.getDiskVolumes().get(0).path;
         homeDir=usbPath+"/shareit";
+        System.out.println(TAG+homeDir);
         File homeDirFile=new File(homeDir);
         if(!homeDirFile.exists()){
             homeDirFile.mkdir();
@@ -98,7 +100,7 @@ public class ShareService extends AbstractRESTResource {
         }
 
         // launch the native progress
-        textile=nativeLauncher.launch("shadow", new String[]{"init",homeDir+"/test1"});
+        textile=nativeLauncher.launch("shadow-arm", new String[]{"init",homeDir+"/shadow"});
         System.out.println(TAG+"init textile");
     }
 

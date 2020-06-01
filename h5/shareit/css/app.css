@@ -55,6 +55,11 @@ li{
 	margin: .5em 0;
 }
 
+.mui-slider-handle{
+	width: 100%;
+	word-wrap: break-word;
+}
+
 .hm-description>li {
 	font-size: 14px;
 	color: #8f8f94;

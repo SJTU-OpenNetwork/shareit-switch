@@ -36,11 +36,11 @@
 		}
 		window.onload = function () {
 			startNode();
-			getWhiteList();
+			// getWhiteList();
 		}
 		var url_post = "/shareit/postCmd";
 		function postSuccess(result) {
-			console.log(result);
+			// console.log(result);
 			getWhiteList();
 		}
 		function postCmdUtil(cmdType1, cmd1) {
@@ -82,7 +82,7 @@
 					'\t\t\t\t\t\t<a class="mui-btn mui-btn-red">删除</a>\n' +
 					'\t\t\t\t\t</div>\n' +
 					'\t\t\t\t\t<div class="mui-slider-handle">' +
-					+whiteResult.peerIdList[i] +
+					+String(whiteResult.peerIdList[i]) +
 					'</div>\n' +
 					'\t\t\t\t</li>');
 			}
