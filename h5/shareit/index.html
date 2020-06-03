@@ -36,7 +36,7 @@
 		}
 		window.onload = function () {
 			startNode();
-			// getWhiteList();
+			getWhiteList();
 		}
 		var url_post = "/shareit/postCmd";
 		function postSuccess(result) {
@@ -76,20 +76,19 @@
 			console.log(whiteResult);
 			$("#OA_task_1").empty();
 			for (var i = 0; i < whiteResult.peerIdList.length; i++) {
-				console.log(whiteResult.peerIdList[i])
 				$("#OA_task_1").append('<li class="mui-table-view-cell">\n' +
 					'\t\t\t\t\t<div class="mui-slider-right mui-disabled">\n' +
 					'\t\t\t\t\t\t<a class="mui-btn mui-btn-red">删除</a>\n' +
 					'\t\t\t\t\t</div>\n' +
-					'\t\t\t\t\t<div class="mui-slider-handle">' +
-					+String(whiteResult.peerIdList[i]) +
-					'</div>\n' +
+					'\t\t\t\t\t<div class="mui-slider-handle">'
+					+ String(whiteResult.peerIdList[i])
+					+'</div>\n' +
 					'\t\t\t\t</li>');
 			}
 		}
 		function getWhiteList() {
 			hilink.getResource(url_get, "getWhitelistSuccess");
-			// getWhitelistSuccess('{"a":"b","peerIdList":["111","222","333"]}'); //test
+			// getWhitelistSuccess('{"a":"b","peerIdList":["aaa","bbb","333"]}'); //test
 		}
 
 	</script>

@@ -56,7 +56,7 @@ public class ShareService extends AbstractRESTResource {
         switch(postData.cmdType){
             case "startNode":
                 if(!nodeStart){
-                    nativeLauncher.launch("shadow",new String[]{"start",homeDir+"/shadow"});
+                    nativeLauncher.launch("shadow-arm",new String[]{"start",homeDir+"/shadow"});
                     System.out.println(TAG+"start textile");
                     nodeStart=true;
                     // testWhiteList.add("aaa");
@@ -68,8 +68,8 @@ public class ShareService extends AbstractRESTResource {
             case "addWhiteList":
                 // add a peerid to whiteList
                 System.out.println(TAG+"add:"+postData.cmd);
-                testWhiteList.add(postData.cmd.substring(0,15)+"...");
-                nativeLauncher.launch("shadow", new String[]{"whitelist","add",postData.cmd});
+                testWhiteList.add(postData.cmd);
+                nativeLauncher.launch("shadow-arm", new String[]{"whitelist","add",postData.cmd});
                 break;
             case "delWhiteList":
                 System.out.println(TAG+"del"+postData.cmd);

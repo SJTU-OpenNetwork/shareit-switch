@@ -18,6 +18,8 @@
 }
 .mui-table-view-cell>.mui-slider-handle{
 	background-color:#eef3fa;
+	width: 100%;
+	word-wrap: break-word;
 }
 
 .mui-icon-plus{
@@ -53,11 +55,6 @@ li{
 /*hm开头的表示仅为 Hello MUI示例定义*/
 .hm-description{
 	margin: .5em 0;
-}
-
-.mui-slider-handle{
-	width: 100%;
-	word-wrap: break-word;
 }
 
 .hm-description>li {
