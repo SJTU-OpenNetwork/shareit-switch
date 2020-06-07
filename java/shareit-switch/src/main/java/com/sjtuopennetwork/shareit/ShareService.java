@@ -3,6 +3,7 @@ package com.sjtuopennetwork.shareit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.net.ServerSocket;
 import java.util.LinkedList;
 
 import com.huawei.hilink.openapi.nativelauncher.LaunchedProcess;
@@ -19,7 +20,9 @@ public class ShareService extends AbstractRESTResource {
     private NativeLauncher nativeLauncher = null;
 
     // Textile process
-    LaunchedProcess textile = null;
+    LaunchedProcess textileInit = null;
+    LaunchedProcess textileStart = null;
+    LaunchedProcess textileAdd = null;
 
     // global vars
     String usbPath;
@@ -27,8 +30,8 @@ public class ShareService extends AbstractRESTResource {
     ResponseAddr responseAddr;
     // LinkedList<String> testWhiteList=new
     // LinkedList<>((Collection<String>)Arrays.asList(new String[]{"p111","p222"}));
-    LinkedList<String> testWhiteList = new LinkedList<>();
-    boolean nodeStart = false;
+    // LinkedList<String> testWhiteList = new LinkedList<>();
+    boolean getAddr = false;
 
     public ShareService() {
         super("shareit");
@@ -48,25 +51,26 @@ public class ShareService extends AbstractRESTResource {
         }
     }
 
-    class ResponseAddr{
+    class ResponseAddr {
         String responseType;
         String addr;
-        public ResponseAddr(String s1,String s2){
-            responseType=s1;
-            addr=s2;
+
+        public ResponseAddr(String s1, String s2) {
+            responseType = s1;
+            addr = s2;
         }
     }
 
     public Response startNode() {
         // 从文件中读取，第二行
-        if(!nodeStart){
+        if (!getAddr) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(homeDir + "/shadow/address"));
                 bufferedReader.readLine();
                 String swarmAddr = bufferedReader.readLine();
-                responseAddr=new ResponseAddr("swarmAddr", swarmAddr);
+                responseAddr = new ResponseAddr("swarmAddr", swarmAddr);
                 bufferedReader.close();
-                nodeStart=true;
+                getAddr = true;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -76,11 +80,23 @@ public class ShareService extends AbstractRESTResource {
     }
 
     public Response getWhiteList() {
+        System.out.println(TAG+"getwhitelist");
+        nativeLauncher.launch("shadow-arm", new String[] { "init","help"});
         String responseType = "whiteList";
-        String[] w = (String[]) testWhiteList.toArray(new String[0]);
-        for (String s : w) {
-            System.out.println(TAG + "res: " + s);
+        LinkedList<String> tmps=new LinkedList<>();
+        try {
+            Thread.sleep(300);
+            BufferedReader bfr = new BufferedReader(new FileReader(homeDir + "/shadow/whitelist/whitelist"));
+            String tmp;
+            while((tmp=bfr.readLine())!=null){
+                System.out.println(TAG+tmp);
+                tmps.add(tmp);
+            }
+            bfr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        String[] w = (String[]) tmps.toArray(new String[0]);
         ResponseData responseData = new ResponseData(responseType, w);
         return Response.ok(responseData).build();
     }
@@ -90,17 +106,12 @@ public class ShareService extends AbstractRESTResource {
             case "addWhiteList":
                 // add a peerid to whiteList
                 System.out.println(TAG + "add:" + postData.cmd);
-                testWhiteList.add(postData.cmd);
                 nativeLauncher.launch("shadow-arm", new String[] { "whitelist", "add", postData.cmd });
                 break;
             case "delWhiteList":
-                System.out.println(TAG + "del" + postData.cmd);
-                for (int i = 0; i < testWhiteList.size(); i++) {
-                    if (testWhiteList.get(i).equals(postData.cmd)) {
-                        testWhiteList.remove(i);
-                        break;
-                    }
-                }
+                System.out.println(TAG+"del:"+postData.cmd);
+                nativeLauncher.launch("shadow-arm", new String[]{"whitelist","remove",postData.cmd});
+                break;
             default:
                 System.out.println(TAG + "get Cmd:" + postData.toString());
         }
@@ -122,7 +133,7 @@ public class ShareService extends AbstractRESTResource {
         }
 
         // launch the native progress
-        textile = nativeLauncher.launch("shadow-arm", new String[] { "init", homeDir + "/shadow" });
+        textileInit = nativeLauncher.launch("shadow-arm", new String[] { "init", homeDir + "/shadow" });
         System.out.println(TAG + "init textile");
 
         // if(!nodeStart){
@@ -134,7 +145,7 @@ public class ShareService extends AbstractRESTResource {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                nativeLauncher.launch("shadow-arm",new String[]{"start",homeDir+"/shadow"});
+                textileStart = nativeLauncher.launch("shadow-arm",new String[]{"start",homeDir+"/shadow"});
                 System.out.println(TAG+"start textile");
             }
         }.start();
@@ -144,7 +155,10 @@ public class ShareService extends AbstractRESTResource {
     }
 
     protected void deactivate() {
-        nativeLauncher.stop(textile);
+        nativeLauncher.stop(textileInit);
+        nativeLauncher.stop(textileStart);
+        nativeLauncher.stop(textileAdd);
+
         System.out.println(TAG+"stop textile");
     }
 

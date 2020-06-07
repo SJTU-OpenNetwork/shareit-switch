@@ -33,8 +33,11 @@
 	<script>
 		function addnode() {
 			mui.prompt("", "", '添加节点', ['确定', '取消'], function (e) {
-				console.log(e.value);
-				addWhiteList(e.value);
+				if(e.index == 0){
+					addWhiteList(e.value);
+				}else{
+					mui.toast("已取消")
+				}
 			}, 'div')
 		}
 		
@@ -49,11 +52,11 @@
 		}
 		function startNode(){
 			hilink.getResource(url_start_node,"startNodeSuccess");
-			// startNodeSuccess("shitaaaaaaaaaaaa")
+			// startNodeSuccess('{"b":"a"}')
 		}
 		window.onload = function () {
 			startNode();
-			// getWhiteList();
+			getWhiteList();
 		}
 
 		var url_post = "/shareit/postCmd";
@@ -71,8 +74,9 @@
 			hilink.setResource(url_post, submitData, "postSuccess");
 		}
 		function addWhiteList(add_peerid) {
+			console.log("add "+add_peerid)
 			if (add_peerid == "") {
-				//alert("输入不能为空");
+				mui.toast("输入不能为空")
 			} else {
 				postCmdUtil("addWhiteList", add_peerid)
 			}
@@ -83,7 +87,6 @@
 			console.log(peerId)
 			postCmdUtil("delWhiteList", peerId)
 		}
-
 
 		var url_get = "/shareit/getWhiteList";
 		function getWhitelistSuccess(result) {
@@ -111,22 +114,14 @@
 	<script>
 		mui.init();
 		(function ($) {
-			//$.swipeoutOpen(el,direction)//打开指定列的滑动菜单，el:指定列的dom对象，direction：取值left|right，指定打开的是左侧或右侧滑动菜单
-			//$.swipeoutClose(el);//关闭指定列的滑动菜单，el:指定列的dom对象
-			//				setTimeout(function() {
-			//					$.swipeoutOpen(document.getElementById("OA_task_1").querySelector('li:last-child'), 'left');
-			//					setTimeout(function() {
-			//						$.swipeoutClose(document.getElementById("OA_task_1").querySelector('li:last-child'));
-			//					}, 1000);
-			//				}, 1000);
-			//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
 			$('#OA_task_1').on('tap', '.mui-btn', function (event) {
 				var elem = this;
 				var li = elem.parentNode.parentNode;
 				mui.confirm('确定删除此节点？', '删除节点', btnArray, function (e) {
 					if (e.index == 0) {
-						li.parentNode.removeChild(li);
+						// li.parentNode.removeChild(li);
 						delWhiteList(li);
+						// mui.toast('暂未实现删除');
 					} else {
 						setTimeout(function () {
 							$.swipeoutClose(li);

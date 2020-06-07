@@ -10,6 +10,7 @@
 (com.huawei.hilink.coreapi.perm.NativePermission "*" "usb,openssl")
 # (java.io.FilePermission "/mnt/Western_Digital_usb1_1/*" "read,write,delete")
 (java.io.FilePermission "/mnt/-" "read,write,delete")
+(java.net.SocketPermission "192.168.3.1:40103" "accept,connect,listen,resolve")
 
 (com.huawei.hilink.coreapi.perm.PluginDataPermission "*" "get,set,del,delall")
 # (com.huawei.hilink.coreapi.perm.NativePermission "30M" "usb,limit")
