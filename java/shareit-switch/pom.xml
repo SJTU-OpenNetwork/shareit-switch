@@ -7,7 +7,7 @@
 
     <groupId>com.sjtuopennetwork.shareit</groupId>
     <artifactId>shareit-switch</artifactId>
-    <version>0.0.9</version>
+    <version>0.0.10</version>
     <packaging>bundle</packaging>
     <name>shareit-switch</name>
     <description>shareit-switch</description>
