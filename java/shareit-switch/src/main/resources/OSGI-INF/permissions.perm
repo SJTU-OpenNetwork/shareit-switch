@@ -7,7 +7,7 @@
 
 (org.osgi.framework.ServicePermission "com.huawei.hilink.openapi.usbstorage.USBStorage" "get")
 (com.huawei.hilink.coreapi.perm.USBPermission "*" "list")
-(com.huawei.hilink.coreapi.perm.NativePermission "150M" "usb,limit")
+(com.huawei.hilink.coreapi.perm.NativePermission "100M" "usb,limit")
 # (java.io.FilePermission "/mnt/Western_Digital_usb1_1/*" "read,write,delete")
 (java.io.FilePermission "/mnt/-" "read,write,delete")
 
